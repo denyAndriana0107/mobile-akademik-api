@@ -10,7 +10,7 @@ const pool = mysql.createPool({
 })
 pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) {
-        console.log('connection to database failed');
+        console.log('connection to database failed' + process.env.DB_HOST);
     }
     else {
         console.log("Connected!");
