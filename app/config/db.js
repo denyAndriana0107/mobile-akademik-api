@@ -12,8 +12,7 @@ pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) {
         console.log(error);
     }
-    else {
-        console.log("Connected!");
-    }
+    console.log("Connected!");
+
 });
 module.exports = pool;
