@@ -2,7 +2,10 @@ const TagihanModel = require("../../../model/keuangan/tagihan/TagihanModel");
 const getTimeStamps = require("../../../helper/GetTimeStamps");
 
 exports.getDataTagihan = (req, res, next) => {
-    TagihanModel.getDataTagihan(req.user.username, (err, result) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    TagihanModel.getDataTagihan(user, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -13,7 +16,7 @@ exports.getDataTagihan = (req, res, next) => {
                 message: err
             });
         } else {
-            TagihanModel.sumTagihan(req.user.username, (err, result2) => {
+            TagihanModel.sumTagihan(user, (err, result2) => {
                 if (err) {
                     if (err.kind === "data_not_found") {
                         return res.status(404).send({

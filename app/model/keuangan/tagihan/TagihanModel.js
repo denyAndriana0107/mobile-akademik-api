@@ -62,7 +62,8 @@ TagihanModel.getDataTagihan = (id_siswa, result) => {
         ,IF(SUM(keuangan_tagihan.tagihan-keuangan_tagihan.total_sudah_bayar)>0,"Belum Lunas","Lunas") AS status_tagihan
         FROM keuangan_tagihan
         WHERE keuangan_tagihan.id_siswa = '${id_siswa}'
-        GROUP BY keuangan_tagihan.id;`, (err, res) => {
+        GROUP BY keuangan_tagihan.id
+        ORDER BY keuangan_tagihan.bulan;`, (err, res) => {
         if (err) {
             result(err);
             return;

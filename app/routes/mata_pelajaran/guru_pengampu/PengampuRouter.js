@@ -9,7 +9,7 @@ module.exports = app => {
     router.post('/mata_pelajaran/guru_pengampu', authMiddleware.isLoggedin, rolePermission.isAdmin, dao.insert);
     // read
     router.get('/mata_pelajaran/guru_pengampu/getall', authMiddleware.isLoggedin, dao.getAll);
-    router.get('/mata_pelajaran/guru_pengampu/getMatpelPerguru/:id', authMiddleware.isLoggedin, dao.readMatPelPerGuruPengampu);
+    router.get('/mata_pelajaran/guru_pengampu/getMatpelPerguru', authMiddleware.isLoggedin, rolePermission.isGuru, dao.readMatPelPerGuruPengampu);
 
 
     app.use('/api/', router);

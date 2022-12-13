@@ -6,7 +6,7 @@ module.exports = app => {
     const role_permission = require("../../middleware/role_permission_middleware");
 
     // read
-    router.get('/keuangan/tagihan', auth.isLoggedin, role_permission.isSiswa, dao.getDataTagihan);
+    router.get('/keuangan/tagihan', auth.isLoggedin, role_permission.isSiswaOrOrangTua, dao.getDataTagihan);
 
     app.use('/api/', router);
 }

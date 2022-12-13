@@ -6,7 +6,7 @@ module.exports = app => {
     const role_permission_middleware = require("../../../../middleware/role_permission_middleware");
 
     // read
-    router.post('/mata_pelajaran/nilai/siswa', auth_middleware.isLoggedin, role_permission_middleware.isSiswa, dao.readNilai);
+    router.post('/mata_pelajaran/nilai/siswa', auth_middleware.isLoggedin, role_permission_middleware.isSiswaOrOrangTua, dao.readNilai);
 
     app.use('/api/', router);
 }

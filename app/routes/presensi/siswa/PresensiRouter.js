@@ -11,5 +11,6 @@ module.exports = app => {
     // read 
     router.get('/presensi/siswa/status', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.getStatusPresensiNow);
     router.get('/presensi/siswa/calculate', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.calculatePresentaseKehadiran);
+    router.get('/presensi/siswa/logs', authMiddleware.isLoggedin, rolePermission.isSiswaOrOrangTua, dao.logsPresensi);
     app.use('/api/', router);
 }

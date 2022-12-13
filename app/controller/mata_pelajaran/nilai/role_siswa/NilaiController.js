@@ -1,8 +1,11 @@
 const NilaiModel = require("../../../../model/mata_pelajaran/nilai/role_siswa/NilaiModel");
 
 exports.readNilai = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
     const data = new NilaiModel({
-        id_siswa: req.user.username,
+        id_siswa: user,
         tingkat: req.body.tingkat,
         semester: req.body.semester
     });

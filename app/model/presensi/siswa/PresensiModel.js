@@ -168,4 +168,26 @@ PresensiModel.calculatePresensiCurrent = (data, result) => {
         }
     );
 }
+PresensiModel.logsPresensi = (id_siswa, result) => {
+    database.query(
+        `SELECT siswa_presensi.id_siswa ,siswa_presensi.tanggal_presensi, 
+        siswa_presensi.status_hadir, siswa_presensi.status_terlambat  
+        FROM siswa_presensi 
+        WHERE siswa_presensi.id_siswa = '${id_siswa}'
+        ORDER BY siswa_presensi.tanggal_presensi DESC LIMIT 25`,
+        (err, res) => {
+            if (err) {
+                result(err);
+                return;
+            }
+            if (!res?.length) {
+                result({ kind: "data_not_found" }, null);
+                return;
+            } else {
+                result(null, res);
+                return;
+            }
+        }
+    );
+}
 module.exports = PresensiModel;

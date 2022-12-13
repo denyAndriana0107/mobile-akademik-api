@@ -76,3 +76,24 @@ exports.calculatePresentaseKehadiran = (req, res, next) => {
         }
     });
 }
+exports.logsPresensi = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    PresensiModel.logsPresensi(user, (err, result) => {
+        if (err) {
+            if (err.kind === "data_not_found") {
+                return res.status(404).send({
+                    message: "not_found"
+                });
+            }
+            return res.status(500).send({
+                message: err
+            });
+        } else {
+            return res.status(200).send({
+                message: result
+            });
+        }
+    });
+}

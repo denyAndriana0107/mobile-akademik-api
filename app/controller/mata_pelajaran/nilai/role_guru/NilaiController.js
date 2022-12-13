@@ -1,9 +1,11 @@
 const NilaiModel = require("../../../../model/mata_pelajaran/nilai/role_guru/NilaiModel");
+const NilaiJenisModel = require("../../../../model/mata_pelajaran/nilai/role_guru/NilaiJenisModel");
 const NilaiFinalModel = require("../../../../model/mata_pelajaran/nilai/role_guru/NilaiFinalModel");
 const NotificationModel = require("../../../../model/notification/NotificationModel");
 var getTimeStamp = require("../../../../helper/GetTimeStamps");
 var CalculateGrade = require("../../../../helper/CalculateGradeNilai");
 var uuid = require("uuid");
+const { database } = require("firebase-admin");
 
 
 // ================ insert ================
@@ -73,10 +75,6 @@ exports.create = (req, res, next) => {
                                         })
                                     }
                                 });
-
-                                // return res.status(200).send({
-                                //     message: "input nilai sukses"
-                                // });
                             }
                         });
 
@@ -106,7 +104,7 @@ exports.readFinalNilai = (req, res, next) => {
     });
 }
 exports.readNilai = (req, res, next) => {
-    NilaiModel.readByIdMataPelajaranIdKelas(req.params.id_mata_pelajaran, req.params.id_kelas, (err, result) => {
+    NilaiModel.readByIdMataPelajaranIdKelas(req.params.id_mata_pelajaran, req.params.id_kelas, req.params.id_siswa, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -120,6 +118,44 @@ exports.readNilai = (req, res, next) => {
             return res.status(200).send({
                 message: result
             });
+        }
+    });
+}
+exports.readListJenisNilai = (req, res, next) => {
+    NilaiJenisModel.getAll((err, result) => {
+        if (err) {
+            return res.status(500).send({
+                message: err
+            });
+        } else {
+            return res.status(200).send({
+                message: result
+            });
+        }
+    });
+}
+// ========== update ================
+exports.updateNilai = (req, res, next) => {
+    const data = {
+        id: req.params.id_nilai,
+        nilai: req.body.nilai,
+        id_siswa: req.params.id_siswa,
+        id_kelas: req.params.id_kelas,
+        id_mata_pelajaran: req.params.id_mata_pelajaran,
+        last_update: getTimeStamp.timestamp()
+    };
+    NilaiModel.updateNilaiSiswaById(data, (err, result) => {
+        if (err) {
+            if (err.kind === "data_not_found") {
+                return res.status(404).send({
+                    message: 'not_found'
+                });
+            }
+            return res.status(500).send({
+                message: err
+            });
+        } else {
+
         }
     });
 }

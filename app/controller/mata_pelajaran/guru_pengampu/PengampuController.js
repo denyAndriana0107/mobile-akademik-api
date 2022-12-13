@@ -38,7 +38,7 @@ exports.getAll = (req, res, next) => {
     });
 }
 exports.readMatPelPerGuruPengampu = (req, res, next) => {
-    PengampuModel.getMataPelajaranByGuruPengampu(req.params.id, (err, result) => {
+    PengampuModel.getMataPelajaranByGuruPengampu(req.user.username, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({

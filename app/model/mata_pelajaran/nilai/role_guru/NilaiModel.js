@@ -28,7 +28,7 @@ Nilai.create = (nilai, result) => {
 }
 
 // ============= read ==================
-Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, result) => {
+Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, id_siswa, result) => {
     database.query(
         `SELECT report_nilai.id, mata_pelajaran.nama_pelajaran, report_nilai.id, report_nilai.nilai,report_nilai_jenis_nilai.jenis_nilai,
         report_nilai.semester, kelas.nama as nama_kelas, kelas.tingkat, report_nilai.id_siswa, profil_siswa.nama_lengkap as nama_siswa FROM report_nilai
@@ -39,7 +39,8 @@ Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, result) => {
         LEFT JOIN profil_siswa ON profil_siswa.id_siswa = siswa.nis
         WHERE report_nilai.id_mata_pelajaran = '${id_mata_pelajaran}' 
         AND report_nilai.id_kelas = '${id_kelas}'
-        ORDER by report_nilai.id_jenis_nilai,report_nilai.id_siswa ASC;`,
+        AND report_nilai.id_siswa = '${id_siswa}'
+        ORDER by report_nilai.id_jenis_nilai;`,
         (err, res) => {
             if (err) {
                 result(err);
@@ -56,7 +57,33 @@ Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, result) => {
     );
 }
 // ============= update =================
-Nilai.updateNilaiSiswaById = (id, result) => {
-
+Nilai.updateNilaiSiswaById = (data, result) => {
+    database.query(
+        `SELECT id FROM report_nilai WHERE report_nilai.id = '${data.id_nilai}';`,
+        (err, res) => {
+            if (condition) {
+                result(err);
+                return;
+            }
+            if (!res?.length) {
+                result({ kind: "data_not_found" }, null);
+                return;
+            } else {
+                database.query(
+                    `UPDATE report_nilai SET nilai = ?,last_update = ? WHERE report_nilai.id = '${data.id_nilai}';`,
+                    [data.nilai, data.last_update],
+                    (err, res) => {
+                        if (err) {
+                            result(err);
+                            return;
+                        } else {
+                            result(null);
+                            return;
+                        }
+                    }
+                );
+            }
+        }
+    );
 }
 module.exports = Nilai;
