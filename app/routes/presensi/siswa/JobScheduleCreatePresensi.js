@@ -8,6 +8,7 @@ module.exports = app => {
     rule.hour = 2;
     rule.minute = 41;
     rule.tz = 'Asia/Jakarta';
+    console.log("run");
     schedule.scheduleJob(rule, async (error) => {
         console.log("run");
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
