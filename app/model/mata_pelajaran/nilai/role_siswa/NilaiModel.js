@@ -71,4 +71,27 @@ NilaiModel.getNilaiFinalMataPelajaranBySemester = (data, result) => {
     }
     );
 }
+NilaiModel.getTranskripNilaiPerSiswa = (data, result) => {
+    database.query(
+        `SELECT report_nilai_final.final_nilai, report_nilai_final.grade,
+        mata_pelajaran.nama_pelajaran, report_nilai_final.semester
+        FROM report_nilai_final
+        LEFT JOIN mata_pelajaran ON report_nilai_final.id_mata_pelajaran = mata_pelajaran.id 
+        WHERE report_nilai_final.id_siswa = '${data.id_siswa}'
+        ORDER BY report_nilai_final.semester, mata_pelajaran.nama_pelajaran`,
+        (err, res) => {
+            if (err) {
+                result(err);
+                return;
+            }
+            if (!res?.length) {
+                result({ kind: "data_not_found" }, null);
+                return;
+            } else {
+                result(null, res);
+                return;
+            }
+        }
+    );
+}
 module.exports = NilaiModel;

@@ -7,6 +7,6 @@ module.exports = app => {
 
     // read
     router.post('/mata_pelajaran/nilai/siswa', auth_middleware.isLoggedin, role_permission_middleware.isSiswaOrOrangTua, dao.readNilai);
-
+    router.get('/mata_pelajaran/nilai/siswa/transkrip', auth_middleware.isLoggedin, role_permission_middleware.isSiswaOrOrangTua, dao.transkripNilai);
     app.use('/api/', router);
 }

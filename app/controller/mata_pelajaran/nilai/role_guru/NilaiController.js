@@ -139,7 +139,7 @@ exports.updateNilai = (req, res, next) => {
     const nilai = new NilaiModel({
         id: req.params.id_nilai,
         nilai: req.body.nilai,
-        semester: req.body.semester,
+        semester: req.params.semester,
         id_siswa: req.params.id_siswa,
         id_kelas: req.params.id_kelas,
         id_mata_pelajaran: req.params.id_mata_pelajaran,

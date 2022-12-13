@@ -7,7 +7,11 @@
   "description": "api akademik SMA",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denyAndriana0107/mobile-akademik-api.git"
   },
   "keywords": [
     "API",
@@ -16,12 +20,18 @@
   ],
   "author": "deny andriana and Team",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denyAndriana0107/mobile-akademik-api/issues"
+  },
+  "homepage": "https://github.com/denyAndriana0107/mobile-akademik-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5"
+  },
   "devDependencies": {
     "@google-cloud/storage": "^6.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "busboy": "^1.6.0",
-    "cors": "^2.8.5",
     "date-holidays": "^3.16.8",
     "dotenv": "^16.0.2",
     "ejs": "^3.1.8",
