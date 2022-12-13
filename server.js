@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const helmet = require("helmet");
 const cors = require("cors");
 const bp = require('body-parser');
 var path = require('path');
