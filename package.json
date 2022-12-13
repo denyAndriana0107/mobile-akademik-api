@@ -7,7 +7,9 @@
   "description": "api akademik SMA",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+    
   },
   "keywords": [
     "API",
