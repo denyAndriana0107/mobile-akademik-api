@@ -4,8 +4,9 @@ module.exports = app => {
     const dao = require("../../../../controller/mata_pelajaran/nilai/role_guru/NilaiController");
     const rolePermission = require("../../../../middleware/role_permission_middleware");
     const authMiddleware = require("../../../../middleware/auth_middleware");
+    const nilaiMiddleware = require("../../../../middleware/nilai/NilaiMiddleware");
     // create 
-    router.post('/mata_pelajaran/nilai/guru/:id_mata_pelajaran/:id_kelas/:id_siswa', authMiddleware.isLoggedin, rolePermission.isGuru, dao.create);
+    router.post('/mata_pelajaran/nilai/guru/:id_mata_pelajaran/:id_kelas/:id_siswa', authMiddleware.isLoggedin, rolePermission.isGuru, nilaiMiddleware.rangeNilai, dao.create);
 
     // read
     router.get('/mata_pelajaran/nilai/guru/nilai_final/:id_mata_pelajaran/:id_kelas', authMiddleware.isLoggedin, rolePermission.isGuru, dao.readFinalNilai);

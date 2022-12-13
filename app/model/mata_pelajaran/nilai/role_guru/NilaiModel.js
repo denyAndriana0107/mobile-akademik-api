@@ -55,5 +55,8 @@ Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, result) => {
         }
     );
 }
+// ============= update =================
+Nilai.updateNilaiSiswaById = (id, result) => {
 
+}
 module.exports = Nilai;
