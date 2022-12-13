@@ -59,9 +59,9 @@ Nilai.readByIdMataPelajaranIdKelas = (id_mata_pelajaran, id_kelas, id_siswa, res
 // ============= update =================
 Nilai.updateNilaiSiswaById = (data, result) => {
     database.query(
-        `SELECT id FROM report_nilai WHERE report_nilai.id = '${data.id_nilai}';`,
+        `SELECT id FROM report_nilai WHERE report_nilai.id = '${data.id}';`,
         (err, res) => {
-            if (condition) {
+            if (err) {
                 result(err);
                 return;
             }
@@ -70,7 +70,7 @@ Nilai.updateNilaiSiswaById = (data, result) => {
                 return;
             } else {
                 database.query(
-                    `UPDATE report_nilai SET nilai = ?,last_update = ? WHERE report_nilai.id = '${data.id_nilai}';`,
+                    `UPDATE report_nilai SET nilai = ?,last_update = ? WHERE report_nilai.id = '${data.id}';`,
                     [data.nilai, data.last_update],
                     (err, res) => {
                         if (err) {
