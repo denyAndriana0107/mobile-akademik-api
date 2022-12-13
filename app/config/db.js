@@ -9,7 +9,11 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME
 })
 pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-    if (error) throw console.log('connection to database failed');
-    console.log("Connected!");
+    if (error) {
+        console.log('connection to database failed');
+    }
+    else {
+        console.log("Connected!");
+    }
 });
 module.exports = pool;
