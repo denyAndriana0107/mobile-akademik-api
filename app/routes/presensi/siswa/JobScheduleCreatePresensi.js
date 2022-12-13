@@ -5,8 +5,8 @@ module.exports = app => {
 
     const schedule = require('node-schedule');
     const rule = new schedule.RecurrenceRule();
-    rule.hour = 1;
-    rule.minute = 10;
+    rule.hour = 2;
+    rule.minute = 30;
     rule.tz = 'Asia/Jakarta';
     schedule.scheduleJob(rule, async (error) => {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
