@@ -8,11 +8,10 @@ const pool = mysql.createPool({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
 })
-pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-    if (error) {
-        console.log(error);
-    }
-    console.log("Connected!");
-
+pool.getConnection((err, connection) => {
+    if (err)
+        throw err;
+    console.log('Database connected successfully');
+    connection.release();
 });
 module.exports = pool;

@@ -98,20 +98,77 @@ exports.transkripNilai = (req, res, next) => {
     const data = new NilaiModel({
         id_siswa: user
     });
-    NilaiModel.getTranskripNilaiPerSiswa(data, (err, result) => {
+    NilaiModel.getMataPelajaranAllPerSiswa(data, (err, result1) => {
         if (err) {
-            if (err.kind === "data_not_found") {
-                return res.status(404).send({
-                    message: 'not_found'
-                });
-            }
             return res.status(500).send({
                 message: err
             });
         } else {
-            return res.status(200).send({
-                message: result
+            NilaiModel.getTranskripNilaiPerSiswa(data, (err, result2) => {
+                if (err) {
+                    return res.status(500).send({
+                        message: err
+                    });
+                } else {
+                    // set format data
+                    var array_data = [];
+                    for (let i = 0; i < result1.length; i++) {
+                        array_data.push(
+                            {
+                                nama_pelajaran: result1[i]['nama_pelajaran'],
+                                tingkat: result1[i]['tingkat'],
+                                data_nilai: []
+                            }
+                        );
+                    }
+                    for (let index = 0; index < result1.length; index++) {
+                        for (let j = 0; j < 2; j++) {
+                            array_data[index]['data_nilai'].push(
+                                {
+                                    semester: j,
+                                    nilai: []
+                                }
+                            );
+                        }
+                    }
+                    for (let i = 0; i < result1.length; i++) {
+                        for (let j = 0; j < result2.length; j++) {
+                            if (array_data[i]['nama_pelajaran'] == result2[j]['nama_pelajaran']) {
+                                for (let k = 0; k < 2; k++) {
+                                    if (array_data[i]['data_nilai'][k]['semester'] == result2[j]['semester']) {
+                                        array_data[i]['data_nilai'][k]['nilai'].push(
+                                            {
+                                                nilai_akhir: result2[j]['final_nilai'],
+                                                grade: result2[j]['grade']
+                                            }
+                                        );
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                    return res.status(200).send({
+                        message: array_data
+                    });
+                }
             });
         }
     });
+
+    //     if (err) {
+    //         if (err.kind === "data_not_found") {
+    //             return res.status(404).send({
+    //                 message: 'not_found'
+    //             });
+    //         }
+    //         return res.status(500).send({
+    //             message: err
+    //         });
+    //     } else {
+    //         return res.status(200).send({
+    //             message: result
+    //         });
+    //     }
+    // });
 }
