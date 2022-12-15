@@ -33,7 +33,7 @@ module.exports = app => {
     //     scheduled: true,
     //     timezone: "Asia/Jakarta"
     // });
-    router.post('presensi/siswa/job/create_presensi', function () {
+    router.post('/presensi/siswa/job', function () {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             PresensiModel.create((err, result) => {
                 if (err) {
