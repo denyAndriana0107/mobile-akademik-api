@@ -3,6 +3,9 @@ var uuid = require("uuid");
 
 // create Ayah profil
 exports.insertProfilAyah = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
     const profilAyah = new AyahReferences({
         id: uuid.v4().substring(0, 10),
         nama_lengkap: req.body.nama_lengkap,
@@ -17,9 +20,9 @@ exports.insertProfilAyah = (req, res, next) => {
         alamat: req.body.alamat,
         phone: req.body.phone,
         email: req.body.email,
-        id_siswa: req.params.id.replace(/[\r\n]/gm, ''),
+        id_siswa: user,
     });
-    AyahReferences.create(req.params.id, profilAyah, (err, result) => {
+    AyahReferences.create(user, profilAyah, (err, result) => {
         if (err) {
             if (err.kind === "redundan_profil") {
                 return res.status(409).send({
@@ -62,6 +65,9 @@ exports.findProfilAyahByNIS = (req, res, next) => {
 
 // update profil Ayah by NIS
 exports.updateProfilAyahByNIS = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
     const updateProfilAyah = new AyahReferences({
         nama_lengkap: req.body.nama_lengkap,
         NIK: req.body.NIK,
@@ -76,7 +82,7 @@ exports.updateProfilAyahByNIS = (req, res, next) => {
         phone: req.body.phone,
         email: req.body.email
     });
-    AyahReferences.updateProfilAyahByNIS(req.params.id, updateProfilAyah, (err, result) => {
+    AyahReferences.updateProfilAyahByNIS(user, updateProfilAyah, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -95,7 +101,10 @@ exports.updateProfilAyahByNIS = (req, res, next) => {
 }
 
 exports.deleteProfilAyahByNIS = (req, res, next) => {
-    AyahReferences.deleteProfilAyahByNIS(req.params.id, (err, result) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    AyahReferences.deleteProfilAyahByNIS(user, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -107,7 +116,7 @@ exports.deleteProfilAyahByNIS = (req, res, next) => {
             });
         }
         return res.status(200).send({
-            message: `Delete suksus dengan NIS ${req.params.id}`
+            message: `Delete sukses`
         });
     });
 }

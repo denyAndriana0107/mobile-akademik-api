@@ -3,6 +3,9 @@ var uuid = require("uuid");
 
 // create Ibu profil
 exports.insertProfilIbu = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
     const profilIbu = new IbuReferences({
         id: uuid.v4().substring(0, 10),
         nama_lengkap: req.body.nama_lengkap,
@@ -17,9 +20,9 @@ exports.insertProfilIbu = (req, res, next) => {
         alamat: req.body.alamat,
         phone: req.body.phone,
         email: req.body.email,
-        id_siswa: req.params.id.replace(/[\r\n]/gm, ''),
+        id_siswa: user,
     });
-    IbuReferences.create(req.params.id, profilIbu, (err, result) => {
+    IbuReferences.create(user, profilIbu, (err, result) => {
         if (err) {
             if (err.kind === "redundan_profil") {
                 return res.status(409).send({
@@ -62,6 +65,9 @@ exports.findProfilIbuByNIS = (req, res, next) => {
 
 // update profil ibu by NIS
 exports.updateProfilIbuByNIS = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
     const updateProfilIbu = new IbuReferences({
         nama_lengkap: req.body.nama_lengkap,
         NIK: req.body.NIK,
@@ -76,7 +82,7 @@ exports.updateProfilIbuByNIS = (req, res, next) => {
         phone: req.body.phone,
         email: req.body.email
     });
-    IbuReferences.updateProfilIbuByNIS(req.params.id, updateProfilIbu, (err, result) => {
+    IbuReferences.updateProfilIbuByNIS(user, updateProfilIbu, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -95,7 +101,10 @@ exports.updateProfilIbuByNIS = (req, res, next) => {
 }
 
 exports.deleteProfilIbuByNIS = (req, res, next) => {
-    IbuReferences.deleteProfilIbuByNIS(req.params.id, (err, result) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    IbuReferences.deleteProfilIbuByNIS(user, (err, result) => {
         if (err) {
             if (err.kind === "data_not_found") {
                 return res.status(404).send({
@@ -107,7 +116,7 @@ exports.deleteProfilIbuByNIS = (req, res, next) => {
             });
         }
         return res.status(200).send({
-            message: `Delete suksus dengan NIS ${req.params.id}`
+            message: `Delete sukses`
         });
     });
 }

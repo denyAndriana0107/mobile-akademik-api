@@ -7,8 +7,8 @@ module.exports = app => {
     const authMiddleware = require("../../middleware/auth_middleware");
 
     // create
-    router.post('/orangtua/ibu/profil/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.insertProfilIbu);
-    router.post('/orangtua/ayah/profil/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.insertProfilAyah);
+    router.post('/orangtua/ibu/profil', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.insertProfilIbu);
+    router.post('/orangtua/ayah/profil', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.insertProfilAyah);
 
 
     // read
@@ -16,12 +16,12 @@ module.exports = app => {
     router.get('/orangtua/ayah/profil/:id', authMiddleware.isLoggedin, dao1.findProfilAyahByNIS);
 
     // update
-    router.put('/orangtua/ibu/profil/update/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.updateProfilIbuByNIS);
-    router.put('/orangtua/ayah/profil/update/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.updateProfilAyahByNIS);
+    router.put('/orangtua/ibu/profil/update', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.updateProfilIbuByNIS);
+    router.put('/orangtua/ayah/profil/update', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.updateProfilAyahByNIS);
 
     // delete
-    router.delete('/orangtua/ibu/profil/delete/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.deleteProfilIbuByNIS);
-    router.delete('/orangtua/ayah/profil/delete/:id', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.deleteProfilAyahByNIS);
+    router.delete('/orangtua/ibu/profil/delete', authMiddleware.isLoggedin, rolePermission.isSiswa, dao.deleteProfilIbuByNIS);
+    router.delete('/orangtua/ayah/profil/delete', authMiddleware.isLoggedin, rolePermission.isSiswa, dao1.deleteProfilAyahByNIS);
 
     app.use('/api/', router);
 }
