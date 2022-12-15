@@ -2,7 +2,8 @@ module.exports = app => {
     const PresensiModel = require("../../../model/presensi/siswa/PresensiModel");
     var getTimeStamp = require("../../../helper/GetTimeStamps");
     var CekLibur = require("../../../helper/CheckHoliday");
-
+    const express = require("express");
+    const router = express.Router();
     // const schedule = require('node-schedule');
     // const rule = new schedule.RecurrenceRule();
     // rule.hour = 2;
@@ -18,9 +19,21 @@ module.exports = app => {
     //         });
     //     }
     // });
-    var cron = require('node-cron');
+    // var cron = require('node-cron');
 
-    cron.schedule('9 3 * * *', () => {
+    // cron.schedule('9 3 * * *', () => {
+    //     if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
+    //         PresensiModel.create((err, result) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //         });
+    //     }
+    // }, {
+    //     scheduled: true,
+    //     timezone: "Asia/Jakarta"
+    // });
+    router.post('presensi/siswa/job/create_presensi', function () {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             PresensiModel.create((err, result) => {
                 if (err) {
@@ -28,9 +41,6 @@ module.exports = app => {
                 }
             });
         }
-    }, {
-        scheduled: true,
-        timezone: "Asia/Jakarta"
     });
-
+    app.use('/admin/', router);
 }

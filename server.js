@@ -42,6 +42,7 @@ require("./app/routes/auth/AuthRouter")(app);
 require("./app/routes/berita/BeritaRouter")(app);
 require("./app/routes/mata_pelajaran/profil/ProfilRouter")(app);
 require("./app/routes/mata_pelajaran/jadwal_siswa/JadwalRouter")(app);
+require("./app/routes/mata_pelajaran/jadwal_all/JadwalRouter")(app);
 
 // profil siswa
 require("./app/routes/siswa/ProfilRouter")(app);
