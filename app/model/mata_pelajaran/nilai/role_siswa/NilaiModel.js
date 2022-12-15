@@ -3,7 +3,6 @@ const NilaiModel = function (data) {
     this.id_siswa = data.id_siswa,
         this.tingkat = data.tingkat,
         this.semester = data.semester
-
 }
 // ====================== nilai per semester =====================
 NilaiModel.readNilaiByTingkatBySemester = (data, result) => {

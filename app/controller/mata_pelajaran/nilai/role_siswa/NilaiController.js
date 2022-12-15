@@ -1,5 +1,6 @@
 const NilaiModel = require("../../../../model/mata_pelajaran/nilai/role_siswa/NilaiModel");
-
+const RankingModel = require("../../../../model/mata_pelajaran/nilai/role_siswa/RankingModel");
+const KelasSiswaModel = require("../../../../model/kelas/daftar_siswa/KelasModel");
 exports.readNilai = (req, res, next) => {
     var user = req.user.username;
     var b = user.split('_');
@@ -171,4 +172,90 @@ exports.transkripNilai = (req, res, next) => {
     //         });
     //     }
     // });
+}
+exports.rankingSiswaPerKelasPerSemester = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    KelasSiswaModel.read_data_kelas_persiswa(user, (err, result) => {
+        if (err) {
+            return res.status(500).send({
+                message: err + 1
+            });
+        } else {
+            const data_siswa = new NilaiModel({
+                id_siswa: user,
+                tingkat: result[0]['tingkat'],
+            });
+            NilaiModel.getMataPelajaranByTingkat(data_siswa, (err, result1) => {
+                if (err) {
+                    return res.status(500).send({
+                        message: err + 2
+                    });
+                } else {
+                    const data_ranking = new RankingModel({
+                        id_siswa: user,
+                        id_kelas: result[0]['id'],
+                        semester: req.body.semester,
+                        jumlah_matkul: result1.length
+                    });
+                    RankingModel.rankingSiswaPerKelas(data_ranking, (err, result2) => {
+                        if (err) {
+                            return res.status(500).send({
+                                message: err + 3
+                            });
+                        } else {
+                            return res.status(200).send({
+                                message: result2
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+    });
+}
+exports.listRankingSiswaPerKelasPerSemester = (req, res, next) => {
+    var user = req.user.username;
+    var b = user.split('_');
+    user = b[b.length - 1];
+    KelasSiswaModel.read_data_kelas_persiswa(user, (err, result) => {
+        if (err) {
+            return res.status(500).send({
+                message: err
+            });
+        } else {
+            const data_siswa = new NilaiModel({
+                id_siswa: user,
+                tingkat: result[0]['tingkat'],
+            });
+            NilaiModel.getMataPelajaranByTingkat(data_siswa, (err, result1) => {
+                if (err) {
+                    return res.status(500).send({
+                        message: err
+                    });
+                } else {
+                    const data_ranking = new RankingModel({
+                        id_siswa: user,
+                        id_kelas: result[0]['id'],
+                        semester: req.body.semester,
+                        jumlah_matkul: result1.length
+                    });
+                    RankingModel.listRankingSiswaPerKelas(data_ranking, (err, result2) => {
+                        if (err) {
+                            return res.status(500).send({
+                                message: err + 2
+                            });
+                        } else {
+                            return res.status(200).send({
+                                message: result2
+                            });
+                        }
+                    })
+                }
+            });
+
+        }
+    });
 }

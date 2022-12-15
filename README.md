@@ -8,13 +8,19 @@
 ## common setup
 
 ```bash
-git clone https://gitlab.com/denyAndriana0107/mobile_akademik_sma_backend.git
+git clone https://github.com/denyAndriana0107/mobile-akademik-api.git
 ```
 
 ```bash
-cd denyAndriana0107/mobile_akademik_sma_backend
+cd denyAndriana0107/mobile-akademik-api
 ```
 
 ```bash
 npm install
+```
+
+- Running Server
+
+```bash
+nodemon server.js
 ```

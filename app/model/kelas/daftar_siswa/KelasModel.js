@@ -55,7 +55,7 @@ data_siswa_kelas.read_data_kelas_persiswa = (id_siswa, result) => {
         } else {
             tingkat = res[0]['MAX(kelas.tingkat)'];
             database.query(
-                `SELECT kelas.tingkat, kelas.nama as nama_kelas, profil_guru.nama_lengkap as wali_kelas 
+                `SELECT kelas.id, kelas.tingkat, kelas.nama as nama_kelas, profil_guru.nama_lengkap as wali_kelas 
                     FROM kelas 
                     LEFT JOIN kelas_daftar_siswa_perkelas ON kelas_daftar_siswa_perkelas.id_kelas = kelas.id 
                     LEFT JOIN guru ON kelas.wali_kelas = guru.nip 

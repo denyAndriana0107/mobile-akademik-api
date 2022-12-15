@@ -6,7 +6,7 @@ module.exports = app => {
     const authMiddleware = require("../../../../middleware/auth_middleware");
     const nilaiMiddleware = require("../../../../middleware/nilai/NilaiMiddleware");
     // create 
-    router.post('/mata_pelajaran/nilai/guru/:id_mata_pelajaran/:id_kelas/:id_siswa', authMiddleware.isLoggedin, rolePermission.isGuru, nilaiMiddleware.rangeNilai, dao.create);
+    router.post('/mata_pelajaran/nilai/guru/:id_mata_pelajaran/:id_kelas/:id_siswa', authMiddleware.isLoggedin, rolePermission.isGuru, nilaiMiddleware.rangeNilai, nilaiMiddleware.semester, dao.create);
 
     // read
     router.get('/mata_pelajaran/nilai/guru/nilai_final/:id_mata_pelajaran/:id_kelas', authMiddleware.isLoggedin, rolePermission.isGuru, dao.readFinalNilai);
