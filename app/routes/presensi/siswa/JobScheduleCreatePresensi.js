@@ -33,11 +33,8 @@ module.exports = app => {
     //     scheduled: true,
     //     timezone: "Asia/Jakarta"
     // });
-    router.post('/presensi/siswa/job', {
-        headers: {
-            'Authorization': `Basic ${Buffer.from('admin:Monalisa@123').toString('base64')}`
-        }
-    }, function (req, res) {
+    router.post('/presensi/siswa/job', function (req, res) {
+        res.setHeader('Authorization', 'Basic YWRtaW46TW9uYWxpc2FAMTIz');
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             PresensiModel.create((err, result) => {
                 if (err) {
