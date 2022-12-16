@@ -47,35 +47,35 @@ module.exports = app => {
     // });
 
     // server version callback
-    // router.post('/presensi/siswa/job', async function (req, res, next) {
-    //     if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
-    //         job().then((succes) => {
-    //             return res.status(200).send({
-    //                 message: 'ok'
-    //             });
-    //         }).catch((error) => {
-    //             return res.status(500).send({
-    //                 message: error
-    //             });
-    //         });
-    //     }
-    // });
-
-    //cyclic versrion 
     router.post('/presensi/siswa/job', async function (req, res, next) {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
-            PresensiModel.create((err, result) => {
-                if (err) {
-                    return res.status(500).send({
-                        mesagge: err
-                    });
-                } else {
-                    return res.status(201).send({
-                        mesagge: 'presensi created'
-                    });
-                }
+            job().then((succes) => {
+                return res.status(200).send({
+                    message: 'ok'
+                });
+            }).catch((error) => {
+                return res.status(500).send({
+                    message: error
+                });
             });
         }
     });
+
+    //cyclic versrion 
+    // router.post('/presensi/siswa/job', async function (req, res, next) {
+    //     if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
+    //         PresensiModel.create((err, result) => {
+    //             if (err) {
+    //                 return res.status(500).send({
+    //                     mesagge: err
+    //                 });
+    //             } else {
+    //                 return res.status(201).send({
+    //                     mesagge: 'presensi created'
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
     app.use('/admin/', router);
 }
