@@ -45,7 +45,18 @@ module.exports = app => {
     //     scheduled: true,
     //     timezone: "Asia/Jakarta"
     // });
-    router.post('/presensi/siswa/job', async function (req, res, next) {
+    router.post('/presensi/siswa/job', (req, res, next) => {
+        var username = process.env.USERNAME_ADMIN;
+        var password = process.env.USERNAME_PASSWORD;
+        req.headers.authorization = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
+        if (!req.headers.authorization) {
+            return res.status(403).send({
+                message: 'not authorize'
+            });
+        } else {
+            next();
+        }
+    }, async function (req, res, next) {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             job().then((succes) => {
                 return res.status(200).send({
@@ -57,23 +68,6 @@ module.exports = app => {
                 });
             });
         }
-    });
-
-    router.get('/presensi/test/job', (req, res, next) => {
-        var username = process.env.USERNAME_ADMIN;
-        var password = process.env.USERNAME_PASSWORD;
-        req.headers.authorization = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
-        if (!req.headers.authorization) {
-            return res.status(403).send({
-                message: 'not authorize'
-            });
-        } else {
-            next();
-        }
-    }, function (req, res, next) {
-        return res.status(200).send({
-            message: 'authorized'
-        });
     });
 
 
