@@ -2,6 +2,7 @@ module.exports = app => {
     const PresensiModel = require("../../../model/presensi/siswa/PresensiModel");
     var getTimeStamp = require("../../../helper/GetTimeStamps");
     var CekLibur = require("../../../helper/CheckHoliday");
+    require("dotenv").config();
     const express = require("express");
     const router = express.Router();
     const job = () => {
@@ -58,29 +59,23 @@ module.exports = app => {
         }
     });
 
-
-    router.get('/presensi/test/job/:username/:password', function (req, res, next) {
-        // var authheader = req.headers.authorization;
-        // authheader = 'pass';
-        // if (!authheader) {
-        //     return res.status(500).send({
-        //         message: 'no ok'
-        //     });
-        // }
-        // var auth = new Buffer.from(authheader.split(' ')[1],
-        //     'base64').toString().split(':');
-        // auth[0] = 'admin';
-        // auth[1] = 'Monalisa@123';
-        // if (auth[0] == 'admin' && auth[1] == 'Monalisa@123') {
-        //     return res.status(200).send({
-        //         message: 'oi admin'
-        //     });
-        // } else {
-        //     return res.status(500).send({
-        //         message: 'ok'
-        //     });
-        // }
-
+    router.get('/presensi/test/job', (req, res, next) => {
+        var username = process.env.USERNAME_ADMIN;
+        var password = process.env.USERNAME_PASSWORD;
+        req.headers.authorization = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
+        if (!req.headers.authorization) {
+            return res.status(403).send({
+                message: 'not authorize'
+            });
+        } else {
+            next();
+        }
+    }, function (req, res, next) {
+        return res.status(200).send({
+            message: 'authorized'
+        });
     });
+
+
     app.use('/admin/', router);
 }
