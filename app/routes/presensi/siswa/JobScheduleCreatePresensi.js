@@ -7,7 +7,7 @@ module.exports = app => {
     const router = express.Router();
     const job = () => {
         return new Promise((resolve, reject) => {
-            PresensiModel.create((error, resulr) => {
+            PresensiModel.create(async (error, resulr) => {
                 if (error) {
                     reject(error);
                 } else {
