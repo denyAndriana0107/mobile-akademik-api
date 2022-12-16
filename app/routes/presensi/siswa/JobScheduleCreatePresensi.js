@@ -47,7 +47,7 @@ module.exports = app => {
     // });
 
     // server version callback
-    router.post('/presensi/siswa/job', async function (req, res, next) {
+    router.post('/presensi/siswa/job', function (req, res, next) {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             job().then((succes) => {
                 return res.status(200).send({
