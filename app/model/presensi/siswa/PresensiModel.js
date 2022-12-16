@@ -25,9 +25,9 @@ PresensiModel.create = (result) => {
     var array_date = data_date.split("-");
     var tahun_ajaran = "";
     if (array_date[1] > 5) {
-        tahun_ajaran = `${array_date[0]}/${array_date[0] + 1}`;
+        tahun_ajaran = `${array_date[0]}/${parseInt(array_date[0]) + 1}`;
     } else {
-        tahun_ajaran = `${array_date[0] - 1}/${array_date[0]}`;
+        tahun_ajaran = `${parseInt(array_date[0]) - 1}/${array_date[0]}`;
     }
     database.query(
         `SELECT id_siswa,id_kelas FROM kelas_daftar_siswa_perkelas 
@@ -40,7 +40,11 @@ PresensiModel.create = (result) => {
             if (err) {
                 result(err);
                 return;
-            } else {
+            } if (!res?.length) {
+                result({ kind: "data_not_found" }, null);
+                return;
+            }
+            else {
                 for (let i = 0; i < res.length; i++) {
                     database.query(
                         `INSERT INTO siswa_presensi SET id = ?,tanggal_presensi = ?,id_siswa = ?,id_kelas = ?`,

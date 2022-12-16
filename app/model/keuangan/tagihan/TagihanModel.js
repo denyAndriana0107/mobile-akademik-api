@@ -25,13 +25,13 @@ TagihanModel.create = (result) => {
             result({ kind: "data_not_found" }, null);
             return;
         } else {
-            var data_date = timeStamp.date();
+            var data_date = getTimeStamp.date();
             var array_date = data_date.split("-");
             var tahun_ajaran = "";
             if (array_date[1] > 5) {
-                tahun_ajaran = `${array_date[0]}/${array_date[0] + 1}`;
+                tahun_ajaran = `${array_date[0]}/${parseInt(array_date[0]) + 1}`;
             } else {
-                tahun_ajaran = `${array_date[0] - 1}/${array_date[0]}`;
+                tahun_ajaran = `${parseInt(array_date[0]) - 1}/${array_date[0]}`;
             }
 
             for (let index = 0; index < res.length; index++) {
