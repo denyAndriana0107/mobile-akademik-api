@@ -42,5 +42,10 @@ module.exports = app => {
             });
         }
     });
+    router.get('/presensi/test/job', function (req, res, next) {
+        return res.status(200).send({
+            message: 'oi admin'
+        });
+    });
     app.use('/admin/', router);
 }
