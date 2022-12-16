@@ -37,11 +37,15 @@ module.exports = app => {
         if (CekLibur.result(getTimeStamp.timestamp()) == false && getTimeStamp.day() != 0) {
             PresensiModel.create((err, result) => {
                 if (err) {
-                    console.log(err);
+                    return res.status(500).send({
+                        message: err
+                    });
+                } else {
+                    return res.status(200).send({
+                        message: 'presensi created'
+                    });
                 }
-                return res.status(200).send({
-                    message: 'presensi created'
-                });
+
             });
         }
     });
