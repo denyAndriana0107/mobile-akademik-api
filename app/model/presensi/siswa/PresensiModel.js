@@ -21,10 +21,21 @@ const PresensiModel = function (presensi) {
 
 // init presensi
 PresensiModel.create = (result) => {
+    var data_date = getTimeStamp.date();
+    var array_date = data_date.split("-");
+    var tahun_ajaran = "";
+    if (array_date[1] > 5) {
+        tahun_ajaran = `${array_date[0]}/${array_date[0] + 1}`;
+    } else {
+        tahun_ajaran = `${array_date[0] - 1}/${array_date[0]}`;
+    }
     database.query(
         `SELECT id_siswa,id_kelas FROM kelas_daftar_siswa_perkelas 
-        LEFT JOIN siswa ON kelas_daftar_siswa_perkelas.id_siswa = siswa.nis 
-        WHERE siswa.status_akademik = 1;`,
+        LEFT JOIN siswa ON kelas_daftar_siswa_perkelas.id_siswa = siswa.nis
+        LEFT JOIN kelas ON kelas_daftar_siswa_perkelas.id_kelas = kelas.id
+        WHERE siswa.status_akademik = 1
+        AND kelas.tahun_ajaran = '${tahun_ajaran}'
+        ORDER BY kelas_daftar_siswa_perkelas.id_siswa`,
         (err, res) => {
             if (err) {
                 result(err);
