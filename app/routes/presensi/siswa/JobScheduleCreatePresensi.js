@@ -39,6 +39,9 @@ module.exports = app => {
                 if (err) {
                     console.log(err);
                 }
+                return res.status(200).send({
+                    message: 'presensi created'
+                });
             });
         }
     });
